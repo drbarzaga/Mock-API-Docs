@@ -1,0 +1,291 @@
+---
+title: Users API
+description: Manage mock users
+icon: Users
+---
+
+# Users API
+
+Complete API reference for managing users. All endpoints support full CRUD operations.
+
+## User Model
+
+```json
+{
+  "id": string,             # Serial primary key auto-generated
+  "name": string,           # User's name (max 255 characters)
+  "email": string,          # User's email (max 255 characters, must be unique)
+  "createdAt": string,      # ISO 8601 timestamp (auto-generated)
+  "updatedAt": string       # ISO 8601 timestamp (auto-updated)
+}
+```
+
+## List Users
+
+### `GET /api/users`
+
+Returns a list of all users. Supports pagination.
+
+**Query Parameters:**
+
+- `page` (optional) - Page number (default: 1)
+- `limit` (optional) - Items per page (default: 10)
+
+**Response:** `200 OK`
+
+**Without pagination:**
+
+```json
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "name": "Jane Smith",
+    "email": "jane@example.com",
+    "createdAt": "2024-01-02T00:00:00.000Z",
+    "updatedAt": "2024-01-02T00:00:00.000Z"
+  }
+]
+```
+
+**With pagination:**
+
+```json
+{
+  "data": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "total": 50,
+    "page": 1,
+    "limit": 10,
+    "totalPages": 5
+  }
+}
+```
+
+**Example Request:**
+
+```bash
+curl -X GET "https://mock-api-ten-eosin.vercel.app/api/users?page=1&limit=10"
+```
+
+## Get User by ID
+
+### `GET /api/users/:id`
+
+Returns a specific user by their ID.
+
+**Path Parameters:**
+
+- `id` (required) - User ID
+
+**Response:** `200 OK`
+
+```json
+{
+  "id": "1",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Error Response:** `404 Not Found`
+
+```json
+{
+  "error": "User not found"
+}
+```
+
+**Example Request:**
+
+```bash
+curl -X GET "https://mock-api-ten-eosin.vercel.app/api/users/1"
+```
+
+## Create User
+
+### `POST /api/users`
+
+Creates a new user.
+
+**Request Body:**
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+```
+
+**Request Headers:**
+
+```
+Content-Type: application/json
+```
+
+**Response:** `201 Created`
+
+```json
+{
+  "id": "1",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Error Response:** `400 Bad Request`
+
+```json
+{
+  "error": "Email already exists"
+}
+```
+
+**Example Request:**
+
+```bash
+curl -X POST "https://mock-api-ten-eosin.vercel.app/api/users" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john@example.com"
+  }'
+```
+
+## Update User
+
+### `PUT /api/users/:id`
+
+Updates an existing user by ID.
+
+**Path Parameters:**
+
+- `id` (required) - User ID
+
+**Request Body:**
+
+```json
+{
+  "name": "John Updated",
+  "email": "john.updated@example.com"
+}
+```
+
+**Request Headers:**
+
+```
+Content-Type: application/json
+```
+
+**Response:** `200 OK`
+
+```json
+{
+  "id": "1",
+  "name": "John Updated",
+  "email": "john.updated@example.com",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-15T00:00:00.000Z"
+}
+```
+
+**Error Responses:**
+
+`404 Not Found`:
+
+```json
+{
+  "error": "User not found"
+}
+```
+
+`400 Bad Request`:
+
+```json
+{
+  "error": "Email already exists"
+}
+```
+
+**Example Request:**
+
+```bash
+curl -X PUT "https://mock-api-ten-eosin.vercel.app/api/users/1" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Updated",
+    "email": "john.updated@example.com"
+  }'
+```
+
+## Delete User
+
+### `DELETE /api/users/:id`
+
+Deletes a user by ID.
+
+**Path Parameters:**
+
+- `id` (required) - User ID
+
+**Response:** `200 OK`
+
+```json
+{
+  "message": "User deleted successfully",
+  "user": {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+**Error Response:** `404 Not Found`
+
+```json
+{
+  "error": "User not found"
+}
+```
+
+**Example Request:**
+
+```bash
+curl -X DELETE "https://mock-api-ten-eosin.vercel.app/api/users/1"
+```
+
+## Validation Rules
+
+- **name**: Required, string, max 255 characters
+- **email**: Required, string, max 255 characters, must be unique, valid email format
+
+## Error Codes
+
+| Status Code | Description                                     |
+| ----------- | ----------------------------------------------- |
+| `200`       | Success                                         |
+| `201`       | User created successfully                       |
+| `400`       | Bad request (validation error, duplicate email) |
+| `404`       | User not found                                  |
+| `500`       | Internal server error                           |

@@ -1,13 +1,42 @@
 ---
-title: Hello World
-description: Your first document
+title: Mock API
+description: Complete REST API documentation for managing users and items
+icon: Globe
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+# Welcome to Mock API
 
-## What is Next?
+A RESTful API with fictional data for testing and development. Use it to test, prototype and develop your application without connecting to a real API.
+
+## Base URL
+
+```
+https://mock-api-ten-eosin.vercel.app/api
+```
+
+## Quick Start
+
+All endpoints are prefixed with `/api` and require no authentication:
+
+```
+GET /api/users       # List users (Pagination supported)
+GET /api/products    # List products (Pagination supported)
+```
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+  <Card
+    title="API Reference"
+    href="/docs/api"
+    description="Complete API overview and general information"
+  />
+  <Card
+    title="Users API"
+    href="/docs/api-users"
+    description="Manage mock users"
+  />
+  <Card
+    title="Products API"
+    href="/docs/api-items"
+    description="Manage mock products"
+  />
 </Cards>

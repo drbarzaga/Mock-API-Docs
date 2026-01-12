@@ -1,0 +1,192 @@
+---
+title: API Reference
+description: Complete API overview and general information
+icon: Code
+---
+
+# Mock API Documentation
+
+## Introduction
+
+A RESTful API with fictional data for testing and development. Use it to test, prototype and develop your application without connecting to a real API.
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://mock-api-ten-eosin.vercel.app/api
+```
+
+## Authentication
+
+No authentication is required. All endpoints are publicly accessible.
+
+## Data Model
+
+The API uses the following data model:
+
+### Users
+
+```json
+{
+  "id": string,             # Serial primary key auto-generated
+  "name": string,           # User's name (max 255 characters)
+  "email": string,          # User's email (max 255 characters, must be unique)
+  "createdAt": string,      # ISO 8601 timestamp (auto-generated)
+  "updatedAt": string       # ISO 8601 timestamp (auto-updated)
+}
+```
+
+### Products
+
+```json
+{
+  "id": string,             # Serial primary key auto-generated
+  "name": string,           # Product's name (max 255 characters)
+  "description": string,    # Product's description (max 255 characters)
+  "createdAt": string,      # ISO 8601 timestamp (auto-generated)
+  "updatedAt": string       # ISO 8601 timestamp (auto-updated)
+}
+```
+
+## HTTP Status Codes
+
+The API uses the standard HTTP status codes for success and error responses.
+
+- `200`: Success (OK)
+- `201`: Created (Resource created successfully)
+- `400`: Bad Request (Invalid request)
+- `404`: Not Found (Resource not found)
+- `500`: Internal Server Error (Server error)
+
+## Error Responses
+
+```json
+{
+  "error": string
+}
+```
+
+## Root Endpoint
+
+The root endpoint returns information about the API.
+
+Endpoint: `GET /`
+
+Response: `200 OK`
+
+```json
+{
+  "message": "Mock API",
+  "endpoints": {
+    "users": "/api/users",
+    "products": "/api/products"
+  }
+}
+```
+
+## Best Practices
+
+### Request Headers
+
+Always include the `Content-Type` header with the value `application/json` in the request headers.
+
+```
+Content-Type: application/json
+```
+
+## Pagination (Supported)
+
+The API supports pagination for both users and products endpoints.
+
+### Query Parameters
+
+- `page`: The page number (default: 1)
+- `limit`: The number of items per page (default: 10)
+
+### Response
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "total": number,
+    "page": number,
+    "limit": number,
+    "totalPages": number
+  }
+}
+```
+
+## Users Endpoints
+
+### GET /api/users
+
+Returns all users if pagination is not specified, otherwise it returns a paginated list of users.
+
+```json
+[
+    {
+        "id": string,
+        "name": string,
+        "email": string,
+        "createdAt": string,
+        "updatedAt": string
+    },
+    ...
+]
+```
+
+### POST /api/users
+
+Creates a new user.
+
+```json
+{
+  "name": string,
+  "email": string
+}
+```
+
+### GET /api/users/:id
+
+Returns a user by ID.
+
+```json
+{
+  "id": string,
+  "name": string,
+  "email": string,
+  "createdAt": string,
+  "updatedAt": string
+}
+```
+
+### PUT /api/users/:id
+
+Updates a user by ID.
+
+```json
+{
+  "name": string,
+  "email": string
+}
+```
+
+### DELETE /api/users/:id
+
+Deletes a user by ID.
+
+```json
+{
+  "message": string,
+  "user": {
+    "id": string,
+    "name": string,
+    "email": string,
+    "createdAt": string,
+    "updatedAt": string
+  }
+}
+```
